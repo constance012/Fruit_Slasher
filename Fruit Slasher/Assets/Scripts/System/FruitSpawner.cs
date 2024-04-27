@@ -6,11 +6,15 @@ public class FruitSpawner : MonoBehaviour
 	[SerializeField] private GameObject[] fruitPrefabs;
 	[SerializeField] private Collider spawnArea;
 
-	[Header("Spawning Settings"), Space]
+	[Header("Fruit Settings"), Space]
 	[SerializeField] private Vector2 spawnIntervalRange;
 	[SerializeField] private Vector2 startAngleRange;
 	[SerializeField] private Vector2 startForceRange;
 	[SerializeField] private float maxLifeTime;
+
+	[Header("Bomb Settings"), Space]
+	[SerializeField] private GameObject bombPrefab;
+	[SerializeField, Range(0f, 1f)] private float bombChance;
 
 	// Private fields.
 	private float _interval;
@@ -34,6 +38,9 @@ public class FruitSpawner : MonoBehaviour
 		if (_interval <= 0f)
 		{
 			GameObject prefab = fruitPrefabs[Random.Range(0, fruitPrefabs.Length)];
+
+			if (Random.value < bombChance)
+				prefab = bombPrefab;
 			
 			Vector3 position = new Vector3
 			(
